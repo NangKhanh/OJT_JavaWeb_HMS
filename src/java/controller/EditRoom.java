@@ -31,7 +31,7 @@ public class EditRoom extends HttpServlet{
         System.out.println("Edit Room information :" + name + " " + code + " " + pHour + " " + pDay + " " + status);
         
         try {
-            boolean success = (new RoomService()).ediRoom(name, code, pHour, pDay, status);
+            boolean success = (new RoomService()).editRoom(name, code, pHour, pDay, status);
         } catch (SQLException ex) {
             Logger.getLogger(EditRoom.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());

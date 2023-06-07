@@ -95,7 +95,7 @@
                                             </li>
                                         </form>
                                         <li><a href="#">Statistical</a></li>
-                                        <li><a href="">Transaction management</a>
+                                        <li><a href="#">Transaction management</a>
                                         </li>
                                         <li><a href="#"><i class="fa fa-user"></i> ${sessionScope.useName} </a>
                                             <ul class="dropdown">
@@ -120,7 +120,7 @@
                                 <h2 style="color: aliceblue;">Manager <b>Rooms</b></h2>
                             </div>
                             <div class="col-6">
-                                <a href="#addRoom" class="btn btn-success" data-toggle="modal"><i
+                                <a href="#addRoom" class="btn btn-success" style="background-color: #c88a3f;" data-toggle="modal"><i
                                         class="material-icons">&#xE147;</i> <span>Add New Room</span></a>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
         <div id="addRoom" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form>
+                    <form action="addRoom" method="post">
                         <div class="modal-header">
                             <h4 class="modal-title">Add a new room</h4>
                             <button type="button" class="close" data-dismiss="modal"
@@ -191,19 +191,19 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Code</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" name="code" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" name="name" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Price/Hour</label>
-                                <input type="number" class="form-control" required  min="0">
+                                <input type="number" name="pHour" class="form-control" required  min="0">
                             </div>
                             <div class="form-group">
                                 <label>Price/Day</label>
-                                <input type="number" class="form-control" required  min="0">
+                                <input type="number" name="pDay" class="form-control" required  min="0">
                             </div>
                         </div>
                         <div class="modal-footer">

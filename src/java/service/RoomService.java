@@ -22,9 +22,15 @@ public class RoomService {
         return rooms;
     }
 
-    public boolean ediRoom(String name, String code, int pHour, int pDay, int status) throws SQLException {
+    public boolean editRoom(String name, String code, int pHour, int pDay, int status) throws SQLException {
         return roomDAO.editRoom(name, pHour, pDay, status, code);
     }
     
-    
+    public boolean hideRoom(String code) throws SQLException {
+        return roomDAO.hideRoom(code);
+    }
+
+    public boolean addRoom(String name, String code, int pHour, int pDay) throws SQLException {
+        return roomDAO.addRoom(name, code, pHour, pDay);
+    }
 }

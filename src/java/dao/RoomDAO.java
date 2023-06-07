@@ -98,7 +98,7 @@ public class RoomDAO {
         return false;
     }
 
-    public boolean deleteRoom(String code) throws SQLException {
+    public boolean hideRoom(String code) throws SQLException {
         String sql = "Update room set showStatus = 0 WHERE roomCode = ?";
         try {
             cnn.setAutoCommit(false);
@@ -117,5 +117,30 @@ public class RoomDAO {
             closeConnection();
         }
         return false;
+    }
+
+    public boolean addRoom(String name, String code, int pHour, int pDay) throws SQLException {
+        String sql = "INSERT INTO room(name, roomCode, pricePerHour, pricePerDay, status, showStatus) VALUES (?, ?, ?, ?, 1, 1)";
+        try {
+            cnn.setAutoCommit(false);
+            PreparedStatement pt = cnn.prepareStatement(sql);
+            pt.setString(1, name);
+            pt.setString(2, code);
+            pt.setInt(3, pHour);
+            pt.setInt(4, pDay);
+            pt.executeUpdate();
+            
+            cnn.commit();
+            pt.close();
+            return true;
+        } catch (SQLException ex) {
+            cnn.rollback();
+            System.out.println(ex.getMessage());
+        } finally {
+            cnn.setAutoCommit(true);
+            closeConnection();
+        }
+        return false;
+        
     }
 }

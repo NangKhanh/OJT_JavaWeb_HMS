@@ -46,8 +46,13 @@
                             <a href="javascript:void(0)" onclick="goToRM()">Room management</a>
                         </li>
                     </form>
+
+                    <form id = "transactionManagerment" action="transactionManagerment" method="post">
+                        <li>
+                            <a href="javascript:void(0)" onclick="gotoTM()">Transaction management</a>
+                        <li>
+                    </form>
                     <li><a href="#">Statistical</a></li>
-                    <li><a href="#">Transaction management</a>
                     </li>
                     <li><a href="#"><i class="fa fa-user"></i> ${sessionScope.useName} </a>
                         <ul class="dropdown">
@@ -93,9 +98,14 @@
                                                 <a href="javascript:void(0)" onclick="goToRM()">Room management</a>
                                             </li>
                                         </form>
-                                        <li><a href="#">Statistical</a></li>
-                                        <li><a href="">Transaction management</a>
+                                        
+                                        <form id = "transactionManagerment" action="transactionManagerment" method="post">
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="gotoTM()">Transaction management</a>
+                                            <li>
+                                        </form>
                                         </li>
+                                        <li><a href="#">Statistical</a></li>
 
                                         <li>
                                             <a href="#"><i class="fa fa-user"></i> ${sessionScope.useName}</a>
@@ -570,6 +580,10 @@
         <script>
             function goToRM() {
                 document.getElementById("roomManagerment").submit();
+            }
+            
+            function gotoTM(){
+                document.getElementById("transactionManagerment").submit();
             }
         </script>
 

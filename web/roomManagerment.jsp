@@ -41,14 +41,19 @@
             </div>
             <nav class="mainmenu mobile-menu">
                 <ul>
-                    <li class="active"><a href="./home">Home</a></li>
+                    <li><a href="./home">Home</a></li>
                     <form id="roomManagerment" action="roomManagerment" method="post">
-                        <li>
+                        <li class="active">
                             <a href="javascript:void(0)" onclick="goToRM()">Room management</a>
                         </li>
                     </form>
+
+                    <form id = "transactionManagerment" action="transactionManagerment" method="post">
+                        <li>
+                            <a href="javascript:void(0)" onclick="gotoTM()">Transaction management</a>
+                        <li>
+                    </form>
                     <li><a href="#">Statistical</a></li>
-                    <li><a href="#">Transaction management</a>
                     </li>
                     <li><a href="#"><i class="fa fa-user"></i> ${sessionScope.useName} </a>
                         <ul class="dropdown">
@@ -94,9 +99,12 @@
                                                 <a href="javascript:void(0)" onclick="goToRM()">Room management</a>
                                             </li>
                                         </form>
+                                        <form id = "transactionManagerment" action="transactionManagerment" method="post">
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="gotoTM()">Transaction management</a>
+                                            <li>
+                                        </form>
                                         <li><a href="#">Statistical</a></li>
-                                        <li><a href="#">Transaction management</a>
-                                        </li>
                                         <li><a href="#"><i class="fa fa-user"></i> ${sessionScope.useName} </a>
                                             <ul class="dropdown">
                                                 <li><a href="./logout"><i class="fa fa-arrow-circle-o-right"></i>
@@ -175,14 +183,14 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <c:forEach var="page" begin="1" end="${pageNumber}">
-                                        <c:choose>
-                                            <c:when test="${page == currentPage}">
-                                            <li class="page-item active"><a href="./roomManagerment?currentPage=${page}" class="page-link">${page}</a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                            <li class="page-item"><a href="./roomManagerment?currentPage=${page}" class="page-link">${page}</a></li>
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <c:choose>
+                                        <c:when test="${page == currentPage}">
+                                        <li class="page-item active"><a href="./roomManagerment?currentPage=${page}" class="page-link">${page}</a></li>
+                                        </c:when>
+                                        <c:otherwise>
+                                        <li class="page-item"><a href="./roomManagerment?currentPage=${page}" class="page-link">${page}</a></li>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:forEach>
                                 <c:choose>
                                     <c:when test="${currentPage < pageNumber}">
@@ -192,13 +200,6 @@
                                     <li class="page-item disabled"><a class="page-link">Next</a></li>
                                     </c:otherwise>
                                 </c:choose>
-                            <!-- <li class="page-item"><a href="#" class="page-link">Previous</a></li>
-                                <li class="page-item active "><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item "><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                                <li class="page-item"><a href="#" class="page-link">Next</a></li>-->
                         </ul>
                     </div>
                 </div>
@@ -391,6 +392,10 @@
         <script>
             function goToRM() {
                 document.getElementById("roomManagerment").submit();
+            }
+            
+            function gotoTM(){
+                document.getElementById("transactionManagerment").submit();
             }
         </script>
         <script src="js/jquery-3.3.1.min.js"></script>

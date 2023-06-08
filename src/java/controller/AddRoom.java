@@ -35,7 +35,6 @@ public class AddRoom extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(AddRoom.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         req.getRequestDispatcher("./roomManagerment").forward(req, resp);
     }
 

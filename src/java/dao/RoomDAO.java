@@ -45,12 +45,13 @@ public class RoomDAO {
         }
     }
 
-    public List<Room> getListRoom() {
+    public List<Room> getListRoom(int curentPage) {
 
         List<Room> rooms = new ArrayList<>();
-        String sql = "SELECT * FROM room where showStatus = 1";
+        String sql = "SELECT * FROM room where showStatus = 1 LIMIT ?, 5";
         try {
             PreparedStatement pt = cnn.prepareStatement(sql);
+            pt.setInt(1, curentPage * 5 - 5);
             rs = pt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("roomID");
@@ -66,7 +67,7 @@ public class RoomDAO {
             pt.close();
             rs.close();
         } catch (SQLException e) {
-            System.out.println("login error :" + e.getMessage());
+            System.out.println("list error :" + e.getMessage());
         } finally {
             closeConnection();
         }
@@ -105,14 +106,14 @@ public class RoomDAO {
             PreparedStatement pt = cnn.prepareStatement(sql);
             pt.setString(1, code);
             pt.executeUpdate();
-            
+
             cnn.commit();
             pt.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             cnn.rollback();
-        } finally{
+        } finally {
             cnn.setAutoCommit(true);
             closeConnection();
         }
@@ -129,7 +130,7 @@ public class RoomDAO {
             pt.setInt(3, pHour);
             pt.setInt(4, pDay);
             pt.executeUpdate();
-            
+
             cnn.commit();
             pt.close();
             return true;
@@ -141,6 +142,32 @@ public class RoomDAO {
             closeConnection();
         }
         return false;
-        
+
+    }
+
+    public int getNumberPage() {
+        String sql = "SELECT count(*) FROM room where showStatus = 1";
+
+        try {
+            PreparedStatement pt = cnn.prepareStatement(sql);
+            rs = pt.executeQuery();
+            while (rs.next()) {
+                int total = rs.getInt(1);
+                int countPage = 0;
+                countPage = total / 5;
+                if (total % 5 != 0) {
+                    countPage++;
+                }
+                return countPage;
+            }
+            rs.close();
+            pt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            closeConnection();
+        }
+
+        return 0;
     }
 }

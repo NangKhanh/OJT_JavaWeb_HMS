@@ -28,6 +28,7 @@ public class EditRoom extends HttpServlet{
         int pHour = Integer.parseInt(req.getParameter("pHour"));
         int pDay = Integer.parseInt(req.getParameter("pDay"));
         int status = Integer.parseInt(req.getParameter("status"));
+        int currentPage = Integer.parseInt(req.getParameter("currentPage"));
         System.out.println("Edit Room information :" + name + " " + code + " " + pHour + " " + pDay + " " + status);
         
         try {
@@ -36,7 +37,7 @@ public class EditRoom extends HttpServlet{
             Logger.getLogger(EditRoom.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
-        
+        req.setAttribute("currentPage", currentPage);
         req.getRequestDispatcher("./roomManagerment").forward(req, resp);
     }
     

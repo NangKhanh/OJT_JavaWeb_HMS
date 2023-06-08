@@ -33,7 +33,7 @@ public class HideRoom extends HttpServlet {
             Logger.getLogger(EditRoom.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
-        
+        req.setAttribute("currentPage", "1");
         req.getRequestDispatcher("./roomManagerment").forward(req, resp);
     }
 

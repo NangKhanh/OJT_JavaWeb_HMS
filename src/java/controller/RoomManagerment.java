@@ -24,7 +24,17 @@ public class RoomManagerment extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Room> listRoom = (new RoomService()).getListRoom();
+
+        int pageNumber = (new RoomService()).getPageNumber();
+        String indexPage = req.getParameter("currentPage");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int currentPage = Integer.parseInt(indexPage);
+        System.out.println("current Page : " + currentPage);
+        List<Room> listRoom = (new RoomService()).getListRoom(currentPage);
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("pageNumber", pageNumber);
         req.setAttribute("rooms", listRoom);
         req.getRequestDispatcher("roomManagerment.jsp").forward(req, resp);
     }
@@ -35,7 +45,17 @@ public class RoomManagerment extends HttpServlet {
         if (session != null) {
             String useName = (String) session.getAttribute("useName");
             if (useName != null && !useName.isEmpty()) {
-                List<Room> listRoom = (new RoomService()).getListRoom();
+
+                int pageNumber = (new RoomService()).getPageNumber();
+                String indexPage = req.getParameter("currentPage");
+                if (indexPage == null) {
+                    indexPage = "1";
+                }
+                int currentPage = Integer.parseInt(indexPage);
+                List<Room> listRoom = (new RoomService()).getListRoom(currentPage);
+                System.out.println("current Page : " + currentPage);
+                req.setAttribute("currentPage", currentPage);
+                req.setAttribute("pageNumber", pageNumber);
                 req.setAttribute("rooms", listRoom);
                 req.getRequestDispatcher("roomManagerment.jsp").forward(req, resp);
             } else {

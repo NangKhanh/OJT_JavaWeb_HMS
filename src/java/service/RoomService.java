@@ -17,8 +17,8 @@ public class RoomService {
 
     public RoomDAO roomDAO = new RoomDAO();
 
-    public List<Room> getListRoom() {
-        List<Room> rooms = roomDAO.getListRoom();
+    public List<Room> getListRoom(int currentPage) {
+        List<Room> rooms = roomDAO.getListRoom(currentPage);
         return rooms;
     }
 
@@ -32,5 +32,9 @@ public class RoomService {
 
     public boolean addRoom(String name, String code, int pHour, int pDay) throws SQLException {
         return roomDAO.addRoom(name, code, pHour, pDay);
+    }
+    
+    public int getPageNumber(){
+        return roomDAO.getNumberPage();
     }
 }

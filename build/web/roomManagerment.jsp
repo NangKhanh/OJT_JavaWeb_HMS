@@ -166,19 +166,45 @@
                     <div class="clearfix">
 
                         <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item active "><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item "><a href="#" class="page-link">3</a></li>
-                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                            <c:choose>
+                                <c:when test="${currentPage > 1}">
+                                    <li class="page-item"><a href="./roomManagerment?currentPage=${currentPage - 1}" class="page-link">Previous</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:forEach var="page" begin="1" end="${pageNumber}">
+                                        <c:choose>
+                                            <c:when test="${page == currentPage}">
+                                            <li class="page-item active"><a href="./roomManagerment?currentPage=${page}" class="page-link">${page}</a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                            <li class="page-item"><a href="./roomManagerment?currentPage=${page}" class="page-link">${page}</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                </c:forEach>
+                                <c:choose>
+                                    <c:when test="${currentPage < pageNumber}">
+                                    <li class="page-item"><a href="./roomManagerment?currentPage=${currentPage + 1}" class="page-link">Next</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li class="page-item disabled"><a class="page-link">Next</a></li>
+                                    </c:otherwise>
+                                </c:choose>
+                            <!-- <li class="page-item"><a href="#" class="page-link">Previous</a></li>
+                                <li class="page-item active "><a href="#" class="page-link">1</a></li>
+                                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                <li class="page-item "><a href="#" class="page-link">3</a></li>
+                                <li class="page-item"><a href="#" class="page-link">4</a></li>
+                                <li class="page-item"><a href="#" class="page-link">5</a></li>
+                                <li class="page-item"><a href="#" class="page-link">Next</a></li>-->
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+        <!-- add Modal HTML -->
         <div id="addRoom" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -221,6 +247,7 @@
                     <div class="modal-content">
                         <form action="editRoom" method="post">
                             <input type="hidden" name="code" value="${room.getRoomCode()}">
+                            <input type="hidden" name="currentPage" value="${currentPage}">
                             <div class="modal-header">
                                 <h5 class="modal-title">Edit Room Information : ${room.getRoomCode()}</h5>
                                 <button type="button" class="close" data-dismiss="modal"
@@ -269,6 +296,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="deleteRoom" method="post">
+
                             <div class="modal-header">
                                 <h4 class="modal-title">Delete Room</h4>
                                 <button type="button" class="close" data-dismiss="modal"

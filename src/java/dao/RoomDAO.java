@@ -170,4 +170,58 @@ public class RoomDAO {
 
         return 0;
     }
+
+    public List<Room> getListRoom() {
+        List<Room> rooms = new ArrayList<>();
+        String sql = "SELECT * FROM room where showStatus = 1";
+        try {
+            PreparedStatement pt = cnn.prepareStatement(sql);
+            rs = pt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("roomID");
+                String code = rs.getString("roomCode");
+                String name = rs.getString("name");
+                int status = rs.getInt("status");
+                int pHour = rs.getInt("pricePerHour");
+                int pDay = rs.getInt("pricePerDay");
+                int showStatus = rs.getInt("showStatus");
+                Room r = new Room(id, code, name, status, pHour, pDay, showStatus);
+                rooms.add(r);
+            }
+            pt.close();
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println("list error :" + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return rooms;
+    }
+
+    public Room getRoomByCode(String rCode) {
+        String sql = "SELECT * FROM room where showStatus = 1 and roomCode = ?";
+        Room room = null;
+        try {
+            PreparedStatement pt = cnn.prepareStatement(sql);
+            pt.setString(1, rCode);
+            rs = pt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("roomID");
+                String code = rs.getString("roomCode");
+                String name = rs.getString("name");
+                int status = rs.getInt("status");
+                int pHour = rs.getInt("pricePerHour");
+                int pDay = rs.getInt("pricePerDay");
+                int showStatus = rs.getInt("showStatus");
+                room = new Room(id, code, name, status, pHour, pDay, showStatus);
+            }
+            pt.close();
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println("list error :" + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return room;
+    }
 }

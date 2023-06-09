@@ -17,11 +17,20 @@ public class RoomService {
 
     public RoomDAO roomDAO = new RoomDAO();
 
+    public List<Room> getAllRoom() {
+        List<Room> rooms = roomDAO.getListRoom();
+        return rooms;
+    }
+    
     public List<Room> getListRoom(int currentPage) {
         List<Room> rooms = roomDAO.getListRoom(currentPage);
         return rooms;
     }
 
+    public  Room getRoomByCode(String code){
+        return roomDAO.getRoomByCode(code);
+    }
+    
     public boolean editRoom(String name, String code, int pHour, int pDay, int status) throws SQLException {
         return roomDAO.editRoom(name, pHour, pDay, status, code);
     }

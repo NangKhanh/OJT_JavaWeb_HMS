@@ -10,7 +10,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import java.util.List;
+import model.Room;
+import service.RoomService;
 /**
  *
  * @author hp
@@ -20,6 +22,11 @@ public class TransactionManagerment extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Room> listRoom = (new RoomService().getAllRoom());
+        for (Room room : listRoom) {
+            System.out.println(room);
+        }
+        req.setAttribute("rooms", listRoom);
         req.getRequestDispatcher("transactionManagerment.jsp").forward(req, resp);
     }
     

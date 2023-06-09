@@ -11,21 +11,21 @@ import lombok.Data;
 public @Data class Transaction {
     private int transactionID;
     private String customerName;
-    private String customerPhoneNumeber;
+    private String customerPhoneNumber;
     private String date;
     private int price;
 
     public Transaction(int transactionID, String customerName, String customerPhoneNumeber, String date, int price) {
         this.transactionID = transactionID;
         this.customerName = customerName;
-        this.customerPhoneNumeber = customerPhoneNumeber;
+        this.customerPhoneNumber = customerPhoneNumeber;
         this.date = date;
         this.price = price;
     }
 
     public Transaction(String customerName, String customerPhoneNumeber, String date, int price) {
         this.customerName = customerName;
-        this.customerPhoneNumeber = customerPhoneNumeber;
+        this.customerPhoneNumber = customerPhoneNumeber;
         this.date = date;
         this.price = price;
     }

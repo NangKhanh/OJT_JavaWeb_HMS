@@ -9,26 +9,40 @@ import lombok.Data;
  * @author hp
  */
 public @Data class TransactionDetail {
-    private int transcationDetailID;
+    private int id;
     private int transactionID;
-    private int roomID;
-    private int price;
+    private String roomCode;
+    private String name;
+    private int time;
     private int type;
+    private int price;
 
-    public TransactionDetail(int transcationDetailID, int transactionID, int roomID, int price, int type) {
-        this.transcationDetailID = transcationDetailID;
+    // use for database
+    public TransactionDetail(int id, int transactionID, String roomCode, int time, int type, int price) {
+        this.id = id;
         this.transactionID = transactionID;
-        this.roomID = roomID;
-        this.price = price;
+        this.roomCode = roomCode;
+        this.time = time;
         this.type = type;
+        this.price = price;
     }
 
-    public TransactionDetail(int transactionID, int roomID, int price, int type) {
+    // use for database
+    public TransactionDetail(int transactionID, String roomCode, int time, int type, int price) {
         this.transactionID = transactionID;
-        this.roomID = roomID;
-        this.price = price;
+        this.roomCode = roomCode;
+        this.time = time;
         this.type = type;
+        this.price = price;
     }
-    
-    
+
+    //stogare the bill's data
+    public TransactionDetail(String roomCode,String name, int time, int type, int price) {
+        this.roomCode = roomCode;
+        this.name = name;
+        this.time = time;
+        this.type = type;
+        this.price = price;
+    }
+
 }

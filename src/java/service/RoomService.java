@@ -36,7 +36,7 @@ public class RoomService {
     }
     
     public boolean hideRoom(String code) throws SQLException {
-        return roomDAO.hideRoom(code);
+        return roomDAO.deteteRoom(code);
     }
 
     public boolean addRoom(String name, String code, int pHour, int pDay) throws SQLException {

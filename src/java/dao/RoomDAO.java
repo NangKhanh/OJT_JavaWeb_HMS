@@ -48,7 +48,7 @@ public class RoomDAO {
     public List<Room> getListRoom(int curentPage) {
 
         List<Room> rooms = new ArrayList<>();
-        String sql = "SELECT * FROM room where showStatus = 1 LIMIT ?, 5";
+        String sql = "SELECT * FROM room LIMIT ?, 5";
         try {
             PreparedStatement pt = cnn.prepareStatement(sql);
             pt.setInt(1, curentPage * 5 - 5);
@@ -60,8 +60,7 @@ public class RoomDAO {
                 int status = rs.getInt("status");
                 int pHour = rs.getInt("pricePerHour");
                 int pDay = rs.getInt("pricePerDay");
-                int showStatus = rs.getInt("showStatus");
-                Room r = new Room(id, code, name, status, pHour, pDay, showStatus);
+                Room r = new Room(id, code, name, status, pHour, pDay);
                 rooms.add(r);
             }
             pt.close();
@@ -99,8 +98,8 @@ public class RoomDAO {
         return false;
     }
 
-    public boolean hideRoom(String code) throws SQLException {
-        String sql = "Update room set showStatus = 0 WHERE roomCode = ?";
+    public boolean deteteRoom(String code) throws SQLException {
+        String sql = "DELETE FROM room WHERE roomCode = ?";
         try {
             cnn.setAutoCommit(false);
             PreparedStatement pt = cnn.prepareStatement(sql);
@@ -121,7 +120,7 @@ public class RoomDAO {
     }
 
     public boolean addRoom(String name, String code, int pHour, int pDay) throws SQLException {
-        String sql = "INSERT INTO room(name, roomCode, pricePerHour, pricePerDay, status, showStatus) VALUES (?, ?, ?, ?, 1, 1)";
+        String sql = "INSERT INTO room(name, roomCode, pricePerHour, pricePerDay, status) VALUES (?, ?, ?, ?, 1)";
         try {
             cnn.setAutoCommit(false);
             PreparedStatement pt = cnn.prepareStatement(sql);
@@ -146,7 +145,7 @@ public class RoomDAO {
     }
 
     public int getNumberPage() {
-        String sql = "SELECT count(*) FROM room where showStatus = 1";
+        String sql = "SELECT count(*) FROM room";
 
         try {
             PreparedStatement pt = cnn.prepareStatement(sql);
@@ -173,7 +172,7 @@ public class RoomDAO {
 
     public List<Room> getListRoom() {
         List<Room> rooms = new ArrayList<>();
-        String sql = "SELECT * FROM room where showStatus = 1";
+        String sql = "SELECT * FROM room WHERE status = 1";
         try {
             PreparedStatement pt = cnn.prepareStatement(sql);
             rs = pt.executeQuery();
@@ -184,8 +183,7 @@ public class RoomDAO {
                 int status = rs.getInt("status");
                 int pHour = rs.getInt("pricePerHour");
                 int pDay = rs.getInt("pricePerDay");
-                int showStatus = rs.getInt("showStatus");
-                Room r = new Room(id, code, name, status, pHour, pDay, showStatus);
+                Room r = new Room(id, code, name, status, pHour, pDay);
                 rooms.add(r);
             }
             pt.close();
@@ -199,7 +197,7 @@ public class RoomDAO {
     }
 
     public Room getRoomByCode(String rCode) {
-        String sql = "SELECT * FROM room where showStatus = 1 and roomCode = ?";
+        String sql = "SELECT * FROM room where roomCode = ?";
         Room room = null;
         try {
             PreparedStatement pt = cnn.prepareStatement(sql);
@@ -212,8 +210,7 @@ public class RoomDAO {
                 int status = rs.getInt("status");
                 int pHour = rs.getInt("pricePerHour");
                 int pDay = rs.getInt("pricePerDay");
-                int showStatus = rs.getInt("showStatus");
-                room = new Room(id, code, name, status, pHour, pDay, showStatus);
+                room = new Room(id, code, name, status, pHour, pDay);
             }
             pt.close();
             rs.close();

@@ -6,6 +6,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +18,8 @@ import java.util.List;
 import model.Room;
 import model.Transaction;
 import service.RoomService;
+import model.TransactionDetail;
+
 /**
  *
  * @author hp
@@ -28,17 +31,20 @@ public class AddBill extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Đọc dữ liệu JSON được gửi từ client
         String transactionData = req.getParameter("transactionData");
+        String billData = req.getParameter("billData");
+        System.out.println("billData" + billData);
         String selectedRoom = req.getParameter("roomSelected");
-        Transaction transaction = null;
-        
+        Transaction transactionInfor = null;
+        List<Room> roombill = null;
+
         Room room = (new RoomService().getRoomByCode(selectedRoom));
         List<Room> listRoom = (new RoomService().getAllRoom());
-        List<Room> roombill = new ArrayList<>();
-        roombill.add(room);
         try {
             // Chuyển đổi JSON thành đối tượng Java bằng Gson
             Gson gson = new Gson();
-             transaction = gson.fromJson(transactionData, Transaction.class);
+            transactionInfor = gson.fromJson(transactionData, Transaction.class);
+            roombill = gson.fromJson(billData, new TypeToken<List<Room>>() {
+            }.getType());
 
             // Xử lý dữ liệu
             // ...
@@ -46,9 +52,18 @@ public class AddBill extends HttpServlet {
             // Xử lý lỗi cú pháp JSON
             System.out.println(e.getMessage());
         }
-        System.out.println("bill information :"+transaction+" "+room);
+        if (roombill != null) {
+            for (Room d : roombill) {
+                System.out.println(d);
+            }
+        } else{
+            System.out.println("null bill infor");
+        }
+        
+        roombill.add(room);
+        System.out.println("Trans information :" + transactionInfor + " " + room);
         // Gửi phản hồi về client
-        req.setAttribute("transaction", transaction);
+        req.setAttribute("transaction", transactionInfor);
         req.setAttribute("roombill", roombill);
         req.setAttribute("rooms", listRoom);
         req.getRequestDispatcher("transactionManagerment.jsp").forward(req, resp);

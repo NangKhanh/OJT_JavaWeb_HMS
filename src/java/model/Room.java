@@ -12,19 +12,19 @@ public @Data class Room {
     private int roomID;
     private String roomCode;
     private String name;
+    private int time;
+    private int type;
     private int status;
     private int pricePerHour;
     private int pricePerDay;
-    private int showStatus;
 
-    public Room(int roomID, String roomCode, String name, int quantity, int pricePerHour, int pricePerDay, int status) {
+    public Room(int roomID, String roomCode, String name, int quantity, int pricePerHour, int pricePerDay) {
         this.roomID = roomID;
         this.roomCode = roomCode;
         this.name = name;
         this.status = quantity;
         this.pricePerHour = pricePerHour;
         this.pricePerDay = pricePerDay;
-        this.showStatus = status;
     }
 
     public Room(String roomCode, String name, int quantity, int pricePerHour, int pricePerDay, int status) {
@@ -33,8 +33,6 @@ public @Data class Room {
         this.status = quantity;
         this.pricePerHour = pricePerHour;
         this.pricePerDay = pricePerDay;
-        this.showStatus = status;
     }
-    
     
 }

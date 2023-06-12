@@ -12,6 +12,8 @@
         <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
+
         <!-- Css Styles -->
         <link rel="stylesheet" href="access/css/transaction.css" type="text/css">
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -24,12 +26,13 @@
         <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />  
     </head>
 
     <body>
-        <div id="preloder">
-            <div class="loader"></div>
-        </div> 
+        <!--        <div id="preloder">
+                    <div class="loader"></div>
+                </div> -->
 
         <!-- Offcanvas Menu Section Begin -->
         <div class="offcanvas-menu-overlay"></div>
@@ -139,7 +142,7 @@
                     <form id="addbill" action="addbill" method="post">
                         <h3 class="transTitle">Bill information</h3>
                         <div class="form-group d-flex justify-content-center">
-                            <select id ="checkr" name="roomSelected" id="roomSelect">
+                            <select class="d-none" name="roomSelected" id="roomSelect" style="width: 200px;">
                                 <option value="-1">
                                     choose room
                                 </option>
@@ -147,7 +150,7 @@
                                     <option value="${room.getRoomCode()}">${room.getName()}</option>
                                 </c:forEach>
                             </select>
-                            <button id="addToBillButton" class="btn btn-secondary" type="button" onclick="addBillForm()">add to bill</button>
+                            <button id="addToBillButton" class="btn btn-secondary" type="button" onclick="addBillForm()" style="height: 28px; padding-bottom: 12px">add to bill</button>
                         </div>
                         <div class="container">
                             <table class="table">
@@ -157,7 +160,8 @@
                                         <th scope="col">name</th>
                                         <th scope="col">time</th>
                                         <th scope="col">type</th>
-                                        <th scope="col">price</th>
+                                        <th scope="col">price/Hour</th>
+                                        <th scope="col">price/Day</th>
                                         <th scope="col">action</th>
                                     </tr>
                                 </thead>
@@ -166,14 +170,18 @@
                                         <tr>
                                             <th scope="row">${roombill.getRoomCode()}</th>
                                             <td>${roombill.getName()}</td>
-                                            <td><input class="form-control" style="width: 60px" name="time" type="number" value="1" required min="1"></td>
+                                            <td><input id="time${roombill.getRoomCode()}" class="form-control" style="width: 60px" name="time" type="number" value="1" required min="1"></td>
                                             <td>
-                                                <select id="typeOfPrice" name="type">
-                                                    <option>Hour</option>
-                                                    <option>Day</option>
+                                                <select id="type${roombill.getRoomCode()}" name="type">
+                                                    <option value="0">Hour</option>
+                                                    <option value="1">Day</option>
                                                 </select>
                                             </td>
-                                            <td>${roombill.getPricePerHour()}</td>
+                                            <td>
+                                                ${roombill.getPricePerHour()}
+                                            </td><td>
+                                                ${roombill.getPricePerDay()}
+                                            </td>
                                             <td>
                                                 <a href="javascript:void(0)" class="fa fa-rotate-right iconLink"data-toggle="tooltip"
                                                    title="update new information room"></a>
@@ -190,83 +198,14 @@
 
             </div>
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="container d-flex justify-content-end">
             <button type="button" class="btn btn-success" >Save transaction</button>
         </div>
     </form>
 </div>
 <!-- Footer Section Begin -->
-<footer class="footer-section">
-    <div class="container">
-        <div class="footer-text">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="ft-about">
-                        <div class="logo">
-                            <a href="#">
-                                <img src="img/footer-logo.png" alt="">
-                            </a>
-                        </div>
-                        <p>We inspire and reach millions of travelers<br /> across 90 local websites</p>
-                        <div class="fa-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-tripadvisor"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1">
-                    <div class="ft-contact">
-                        <h6>Contact Us</h6>
-                        <ul>
-                            <li>(12) 345 67890</li>
-                            <li>info.colorlib@gmail.com</li>
-                            <li>856 Cordia Extension Apt. 356, Lake, United State</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1">
-                    <div class="ft-newslatter">
-                        <h6>New latest</h6>
-                        <p>Get the latest updates and offers.</p>
-                        <form action="#" class="fn-form">
-                            <input type="text" placeholder="Email">
-                            <button type="button"><i class="fa fa-send"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="copyright-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7">
-                    <ul>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Terms of use</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Environmental Policy</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-5">
-                    <div class="co-text">
-                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved |
-                            This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
-                                href="#" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<<script src="access/js/transaction.js"></script>
+
+
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
@@ -275,6 +214,70 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="access/js/transaction.js"></script>
+<script>
+    
+function addBillForm() {
+    //event.preventDefault(); // Ngăn chặn sự kiện mặc định của form
+
+    let customerName = document.getElementById("txtCustomerName").value;
+    let phoneNumber = document.getElementById("txtPhoneNumber").value;
+    let transactionDate = document.getElementById("txtDate").value;
+    let totalPrice = document.getElementById("txtTotalPrice").value;
+    let check = document.getElementById("roomSelect").value;
+    
+    if (check !== "-1") {
+        //TT transacation
+        let transaction = {customerName: customerName, customerPhoneNumber: phoneNumber, date: transactionDate, totalPrice: totalPrice};
+        let transactionData = JSON.stringify(transaction);
+
+        // Tạo một trường ẩn trong form để lưu trữ chuỗi JSON
+        let hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "transactionData");
+        hiddenField.setAttribute("value", transactionData);
+
+        let formElement = document.getElementById("addbill");
+        formElement.appendChild(hiddenField);
+        
+        let roomBills = [];
+        let roomBill = [];
+        <c:forEach var="roombill" items="${roombill}">
+            // Remove the previ ous declaration of 'roomBill' variable
+            // Tạo đối tượng JSON cho mỗi phần tử trong vòng lặp
+            roomBill = {
+                roomCode: "${roombill.getRoomCode()}",
+                name: "${roombill.getName()}",
+                time: document.getElementById("time${roombill.getRoomCode()}").value,
+                type: document.getElementById("type${roombill.getRoomCode()}").value,
+                pricePerHour:"${roombill.getPricePerHour()}",
+                pricePerDay: "${roombill.getPricePerDay()}"
+            };
+
+            // Thêm đối tượng JSON vào mảng roomBills
+            roomBills.push(roomBill);
+        </c:forEach>
+        let billData = JSON.stringify(roomBills);
+        let hiddenField2 = document.createElement("input");
+        hiddenField2.setAttribute("type", "hidden");
+        hiddenField2.setAttribute("name", "billData");
+        hiddenField2.setAttribute("value", billData);
+        
+        console.log(billData);
+        console.log(transactionData)
+        formElement.appendChild(hiddenField2);
+        //TT bill
+        // Gửi form đi
+        formElement.submit();
+    }
+
+}
+
+
+</script>
 </body>
 
 </html>

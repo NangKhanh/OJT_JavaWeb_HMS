@@ -23,9 +23,9 @@ public class TransactionManagerment extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Room> listRoom = (new RoomService().getAllRoom());
-        for (Room room : listRoom) {
-            System.out.println(room);
-        }
+//        for (Room room : listRoom) {
+//            System.out.println(room);
+//        }
         req.setAttribute("rooms", listRoom);
         req.getRequestDispatcher("transactionManagerment.jsp").forward(req, resp);
     }

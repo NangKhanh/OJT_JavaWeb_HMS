@@ -2,10 +2,6 @@
     text-align: center;
     padding-bottom: 50px;
 }
-.wrapper{
-    height: 200px;
-    overflow: auto;
-}
 .iconLink{
     color: black;
 }

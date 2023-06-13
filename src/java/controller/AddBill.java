@@ -13,13 +13,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import model.Room;
 import model.Transaction;
 import service.RoomService;
-import model.TransactionDetail;
-
+import service.TransactionService;
 /**
  *
  * @author hp
@@ -45,30 +43,26 @@ public class AddBill extends HttpServlet {
             transactionInfor = gson.fromJson(transactionData, Transaction.class);
             roombill = gson.fromJson(billData, new TypeToken<List<Room>>() {
             }.getType());
-
-            // Xử lý dữ liệu
-            // ...
         } catch (JsonSyntaxException e) {
-            // Xử lý lỗi cú pháp JSON
             System.out.println(e.getMessage());
         }
-        if (roombill != null) {
-            for (Room d : roombill) {
-                System.out.println(d);
-            }
-        } else{
-            System.out.println("null bill infor");
-        }
-        
+//        if (roombill != null) {
+//            for (Room d : roombill) {
+//                System.out.println(d);
+//            }
+//        } else {
+//            System.out.println("null bill infor");
+//        }
+
         roombill.add(room);
+        int totalPrice = (new TransactionService()).calTotalPrice(roombill);
+        listRoom = (new TransactionService()).fillerRoomselected(listRoom, roombill);
+        transactionInfor.setPrice(totalPrice);
         System.out.println("Trans information :" + transactionInfor + " " + room);
         // Gửi phản hồi về client
         req.setAttribute("transaction", transactionInfor);
         req.setAttribute("roombill", roombill);
         req.setAttribute("rooms", listRoom);
         req.getRequestDispatcher("transactionManagerment.jsp").forward(req, resp);
-//        resp.setContentType("application/json");    
-//        resp.setCharacterEncoding("UTF-8");
-//        resp.getWriter().write("Dữ liệu đã được nhận và xử lý thành công");
     }
 }

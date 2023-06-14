@@ -278,7 +278,6 @@
                                             <input style="margin-left: 20px; margin-right: 5px"  type="radio" name="status" class="" value="0" checked> Đã cho thuê
                                         </c:when>
                                     </c:choose>
-
                                 </div>
                             </div>
                             <div class="modal-footer">

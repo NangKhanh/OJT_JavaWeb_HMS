@@ -14,7 +14,7 @@ import model.Room;
  */
 public class TransactionService {
 
-    public List<Room> fillerRoomselected(List<Room> listRoom, List<Room> roombill) {
+    public List<Room> fillerRoomSelected(List<Room> listRoom, List<Room> roombill) {
         Iterator<Room> iterator = listRoom.iterator();
         while (iterator.hasNext()) {
             Room obj = iterator.next();
@@ -35,10 +35,10 @@ public class TransactionService {
         for (Room r : roombill) {
             //System.out.println(r);
             if (r.getType() == 0) {
-                totalPrice += r.getPricePerHour();
+                totalPrice += r.getPricePerHour()*r.getTime();
             }
             if (r.getType() == 1) {
-                totalPrice += r.getPricePerDay();
+                totalPrice += r.getPricePerDay()*r.getTime();
             }
         }
         return totalPrice;

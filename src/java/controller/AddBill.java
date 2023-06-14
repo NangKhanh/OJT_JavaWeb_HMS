@@ -18,6 +18,7 @@ import model.Room;
 import model.Transaction;
 import service.RoomService;
 import service.TransactionService;
+
 /**
  *
  * @author hp
@@ -30,12 +31,11 @@ public class AddBill extends HttpServlet {
         // Đọc dữ liệu JSON được gửi từ client
         String transactionData = req.getParameter("transactionData");
         String billData = req.getParameter("billData");
-        System.out.println("billData" + billData);
+        System.out.println("billData " + billData);
         String selectedRoom = req.getParameter("roomSelected");
         Transaction transactionInfor = null;
         List<Room> roombill = null;
 
-        Room room = (new RoomService().getRoomByCode(selectedRoom));
         List<Room> listRoom = (new RoomService().getAllRoom());
         try {
             // Chuyển đổi JSON thành đối tượng Java bằng Gson
@@ -53,12 +53,16 @@ public class AddBill extends HttpServlet {
 //        } else {
 //            System.out.println("null bill infor");
 //        }
-
-        roombill.add(room);
+        if (!selectedRoom.equals("-1")) {
+            Room room = (new RoomService().getRoomByCode(selectedRoom));
+            room.setTime(1);
+            room.setType(0);
+            roombill.add(room);
+        }
         int totalPrice = (new TransactionService()).calTotalPrice(roombill);
-        listRoom = (new TransactionService()).fillerRoomselected(listRoom, roombill);
+        listRoom = (new TransactionService()).fillerRoomSelected(listRoom, roombill);
         transactionInfor.setPrice(totalPrice);
-        System.out.println("Trans information :" + transactionInfor + " " + room);
+
         // Gửi phản hồi về client
         req.setAttribute("transaction", transactionInfor);
         req.setAttribute("roombill", roombill);

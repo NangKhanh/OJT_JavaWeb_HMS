@@ -123,18 +123,21 @@
                         <div class="form-group">
                             <label>Customer Name :</label>
                             <input id ="txtCustomerName" class="form-control" type="text" name="customerName" value="${transaction.getCustomerName()}" required>
+                            <span id="nameValid" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label>Phone Number :</label>
-                            <input id ="txtPhoneNumber" class="form-control" type="number" name="phoneNumber" value="${transaction.getCustomerPhoneNumber()}" required min="0">
+                            <input id ="txtPhoneNumber" class="form-control" type="text" name="phoneNumber" value="${transaction.getCustomerPhoneNumber()}" required min="0">
+                            <span id="phoneValid" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label>Date :</label>
                             <input id="txtDate" class="form-control" type="date" name="transcationDate" value="${transaction.getDate()}" required>
+                            <span id="dateValid" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label>Total price :</label>
-                            <input id="txtTotalPrice" class="form-control" type="number" name="totalPrice" value="${transaction.getPrice()}" readonly>
+                            <input id="txtTotalPrice" class="form-control" type="text" name="totalPrice" value="${transaction.getPrice()}" readonly>
                         </div>
                     </div>
                 </div>
@@ -225,7 +228,7 @@
             </div>
         </div>
         <div class="container d-flex justify-content-end">
-            <button type="button" class="btn btn-success"  style="margin-bottom: 30px">Save transaction</button>
+            <button type="button" class="btn btn-success"  style="margin-bottom: 30px" onclick="submitTransaction()">Save transaction</button>
         </div>
     </div>
     <!-- Footer Section Begin -->
@@ -288,7 +291,7 @@
             hiddenField2.setAttribute("value", billData);
 
             console.log(billData);
-            console.log(transactionData)
+            console.log(transactionData);
             formElement.appendChild(hiddenField2);
             //TT bill
             // Gửi form đi
@@ -381,6 +384,68 @@
             }
         </c:forEach>
             return true;
+    };
+    
+    const validateName = () => {
+        let name = document.getElementById("txtCustomerName").value;
+        if (!name) {
+        document.getElementById("nameValid").innerHTML = "Không thể để trống trường này";
+        return false;
+        }else {
+            document.getElementById("nameValid").innerHTML = "";
+            return true;
+        }
+    };
+    
+    const valiatePhone = () => {
+        let phone = document.getElementById("txtPhoneNumber").value;
+        //const regex = /^(\+\d{1,4}\s?)?\d{10}$/;
+        const regex = /^[0-9]\d*$/;
+
+        if (!phone) {
+            document.getElementById("phoneValid").innerHTML = "Không thể để trống trường này";
+            return false;
+        } else if (!regex.test(phone)) {
+            document.getElementById("phoneValid").innerHTML = "Số điện thoại chỉ có thể chứa các chữ số";
+            return false;
+        } else {
+            document.getElementById("phoneValid").innerHTML = "";
+            return true;
+        }
+    };
+    
+    const validateDate = () => {
+        const today = new Date();
+        const check = new Date(today.getFullYear(), today.getMonth(), today.getDate()+1);
+        let date = new Date(document.getElementById("txtDate").value);
+
+        if (isNaN(date)) {
+          document.getElementById("dateValid").innerHTML = "Không thể để trống trường này";
+          return false;
+        } else if (date > check) {
+          document.getElementById("dateValid").innerHTML = "Không thể nhập ngày giao dịch lớn hơn hôm nay";
+          return false;
+        } else {
+          document.getElementById("dateValid").innerHTML = "";
+          return true;
+        }
+    };
+
+    
+    const checkTotalPrice = () => {
+        const totalPrice = document.getElementById("txtTotalPrice").value;
+        if (!totalPrice || totalPrice === "0"){
+            alert("Phải thêm ít nhất một phòng để thực hiện dao dịch");
+            return false;
+        } else{
+            return true;
+        }
+    };
+    
+    let submitTransaction = () => {
+      if(validateName()&&valiatePhone()&&validateDate()&&validateTime()&&checkTotalPrice()){
+        alert("save successfull");
+      }
     };
     </script>
 </body>

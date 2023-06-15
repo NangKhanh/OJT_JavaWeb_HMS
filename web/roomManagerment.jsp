@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="css/nice-select.css" type="text/css">
         <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
         <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="css/slicknav.1.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
 
     </head>
@@ -226,11 +226,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Price/Hour</label>
-                                <input type="number" name="pHour" class="form-control" required  min="0">
+                                <input type="number" name="pHour" class="form-control" required  min="1">
                             </div>
                             <div class="form-group">
                                 <label>Price/Day</label>
-                                <input type="number" name="pDay" class="form-control" required  min="0">
+                                <input type="number" name="pDay" class="form-control" required  min="1">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -261,11 +261,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Price/Hour</label>
-                                    <input type="number" name ="pHour" class="form-control" value="${room.getPricePerHour()}" required min="0">
+                                    <input type="number" name ="pHour" class="form-control" value="${room.getPricePerHour()}" required min="1">
                                 </div>
                                 <div class="form-group">
                                     <label>Price/Day</label>
-                                    <input type="number" name="pDay" class="form-control" value="${room.getPricePerDay()}" required min="0">
+                                    <input type="number" name="pDay" class="form-control" value="${room.getPricePerDay()}" required min="">
                                 </div>
                                 <div class="d-flex">
                                     <c:choose>

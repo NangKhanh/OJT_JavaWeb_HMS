@@ -26,9 +26,9 @@
     </head>
 
     <body>
-        <div id="preloder">
+<!--        <div id="preloder">
             <div class="loader"></div>
-        </div>
+        </div>-->
 
         <!-- Offcanvas Menu Section Begin -->
         <div class="offcanvas-menu-overlay"></div>
@@ -41,7 +41,7 @@
             </div>
             <nav class="mainmenu mobile-menu">
                 <ul>
-                    <li><a href="./home">Home</a></li>
+                    <li ><a href="./home">Home</a></li>
                     <form id="roomManagerment" action="roomManagerment" method="post">
                         <li class="active">
                             <a href="javascript:void(0)" onclick="goToRM()">Room management</a>
@@ -50,11 +50,15 @@
 
                     <form id = "transactionManagerment" action="transactionManagerment" method="post">
                         <li>
-                            <a href="javascript:void(0)" onclick="gotoTM()">Transaction management</a>
+                            <a href="javascript:void(0)" onclick="gotoTM()">Add transaction</a>
+                        <li>
+                    </form>
+                    <form id = "transactionHistory" action="transactionHistory" method="post">
+                        <li>
+                            <a href="javascript:void(0)" onclick="gotoTH()">Transaction history</a>
                         <li>
                     </form>
                     <li><a href="#">Statistical</a></li>
-                    </li>
                     <li><a href="#"><i class="fa fa-user"></i> ${sessionScope.useName} </a>
                         <ul class="dropdown">
                             <li><a href="./logout"><i class="fa fa-arrow-circle-o-right"></i> LogOut</a></li>
@@ -92,23 +96,30 @@
                             <div class="nav-menu">
                                 <nav class="mainmenu">
                                     <ul style="display: flex">
-                                        <li ><a href="./home">Home</a></li>
+                                        <li><a href="./home">Home</a></li>
 
                                         <form id="roomManagerment" action="roomManagerment" method="post">
                                             <li class="active">
                                                 <a href="javascript:void(0)" onclick="goToRM()">Room management</a>
                                             </li>
                                         </form>
+
                                         <form id = "transactionManagerment" action="transactionManagerment" method="post">
                                             <li>
-                                                <a href="javascript:void(0)" onclick="gotoTM()">Transaction management</a>
+                                                <a href="javascript:void(0)" onclick="gotoTM()">Add transaction</a>
+                                            </li>
+                                        </form>
+                                        <form id = "transactionHistory" action="transactionHistory" method="post">
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="gotoTH()">Transaction history</a>
                                             <li>
                                         </form>
                                         <li><a href="#">Statistical</a></li>
-                                        <li><a href="#"><i class="fa fa-user"></i> ${sessionScope.useName} </a>
+
+                                        <li>
+                                            <a href="#"><i class="fa fa-user"></i> ${sessionScope.useName}</a>
                                             <ul class="dropdown">
-                                                <li><a href="./logout"><i class="fa fa-arrow-circle-o-right"></i>
-                                                        LogOut</a></li>
+                                                <li><a href="./logout"><i class="fa fa-arrow-circle-o-right"></i> LogOut</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -326,6 +337,10 @@
             
             function gotoTM(){
                 document.getElementById("transactionManagerment").submit();
+            }
+            
+            function gotoTH(){
+                document.getElementById("transactionHistory").submit();
             }
         </script>
         <script src="js/jquery-3.3.1.min.js"></script>

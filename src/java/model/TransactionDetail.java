@@ -45,4 +45,13 @@ public @Data class TransactionDetail {
         this.price = price;
     }
 
+    public TransactionDetail(int transactionID, String roomCode, String name, int time, int type, int price) {
+        this.transactionID = transactionID;
+        this.roomCode = roomCode;
+        this.name = name;
+        this.time = time;
+        this.type = type;
+        this.price = price;
+    }
+
 }

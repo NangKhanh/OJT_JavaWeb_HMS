@@ -7,12 +7,17 @@ package service;
 import java.util.Iterator;
 import java.util.List;
 import model.Room;
+import model.Transaction;
+import dao.TransactionDAO;
+import java.sql.SQLException;
 
 /**
  *
  * @author hp
  */
 public class TransactionService {
+
+    TransactionDAO transactionDAO = new TransactionDAO();
 
     public List<Room> fillerRoomSelected(List<Room> listRoom, List<Room> roombill) {
         Iterator<Room> iterator = listRoom.iterator();
@@ -35,13 +40,36 @@ public class TransactionService {
         for (Room r : roombill) {
             //System.out.println(r);
             if (r.getType() == 0) {
-                totalPrice += r.getPricePerHour()*r.getTime();
+                totalPrice += r.getPricePerHour() * r.getTime();
             }
             if (r.getType() == 1) {
-                totalPrice += r.getPricePerDay()*r.getTime();
+                totalPrice += r.getPricePerDay() * r.getTime();
             }
         }
         return totalPrice;
     }
 
+    public void createTransaction(Transaction transactionInfor) {
+        try {
+            transactionDAO.createTransaction(transactionInfor.getCustomerName(), transactionInfor.getCustomerPhoneNumber(), transactionInfor.getDate(), transactionInfor.getPrice());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public List<Transaction> getAllList(){
+        return transactionDAO.getAllTransaction();
+    }
+    
+    public List<Transaction> getSortAllTransaction(int currentPage){
+        return transactionDAO.getSortAllTransaction(currentPage);
+    }
+    
+    public Transaction getTransactionByID(int id){
+        return transactionDAO.getTransactionById(id);
+    }
+    
+    public int getPageNumber(){
+        return transactionDAO.getNumberPage();
+    }
 }

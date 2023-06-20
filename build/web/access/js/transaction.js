@@ -8,4 +8,9 @@ $(document).ready(function () {
 function goToRM() {
     document.getElementById("roomManagerment").submit();
 }
-
+function gotoTM() {
+    document.getElementById("transactionManagerment").submit();
+}
+function gotoTH() {
+    document.getElementById("transactionHistory").submit();
+}

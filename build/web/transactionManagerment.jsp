@@ -62,7 +62,6 @@
                             <a href="javascript:void(0)" onclick="gotoTH()">Transaction history</a>
                         <li>
                     </form>
-                    <li><a href="#">Statistical</a></li>
                     <li><a href="#"><i class="fa fa-user"></i> ${sessionScope.useName} </a>
                         <ul class="dropdown">
                             <li><a href="./logout"><i class="fa fa-arrow-circle-o-right"></i> LogOut</a></li>
@@ -118,8 +117,6 @@
                                                 <a href="javascript:void(0)" onclick="gotoTH()">Transaction history</a>
                                             <li>
                                         </form>
-                                        <li><a href="#">Statistical</a></li>
-
                                         <li>
                                             <a href="#"><i class="fa fa-user"></i> ${sessionScope.useName}</a>
                                             <ul class="dropdown">

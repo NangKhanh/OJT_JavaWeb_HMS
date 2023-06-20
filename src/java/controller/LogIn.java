@@ -12,7 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import model.User;
 import dao.UserDAO;
+import model.Statistic;
+import service.StatisticService;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -25,14 +28,27 @@ public class LogIn extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        String message = "";
-        System.out.println("login infor :" +username+" " +password);
+        String message;
+        String year = req.getParameter("currentPage");
+        if (year == null) {
+            year = "2023";
+        }
+        int currentYear = Integer.parseInt(year);
+        System.out.println("login infor :" + username + " " + password);
         User user = (new UserDAO()).checkLogin(username, password);
         if (user != null) {
             System.out.println(user);
             HttpSession session = req.getSession();
             session.setAttribute("useName", user.getUserName());
-            //req.setAttribute("useName", user.getUserName());
+
+            List<Statistic> statistics = (new StatisticService()).getStatisticList(currentYear);
+            Statistic lastStatistic = null;
+            for (Statistic statistic : statistics) {
+                System.out.println(statistic);
+                lastStatistic = statistic;
+            }
+            req.setAttribute("lastStatistic", lastStatistic);
+            req.setAttribute("statistics", statistics);
             req.getRequestDispatcher("home.jsp").forward(req, resp);
         } else {
             message = "Wrong user name or password! Try again.";
@@ -46,11 +62,22 @@ public class LogIn extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
+        String year = req.getParameter("currentPage");
+        if (year == null) {
+            year = "2023";
+        }
+        int currentYear = Integer.parseInt(year);
         if (session != null) {
             String useName = (String) session.getAttribute("useName");
             if (useName != null && !useName.isEmpty()) {
-                req.setAttribute("useName", useName);
-                System.out.println("session userName :" + useName);
+                List<Statistic> statistics = (new StatisticService()).getStatisticList(currentYear);
+                Statistic lastStatistic = null;
+                for (Statistic statistic : statistics) {
+                    System.out.println(statistic);
+                    lastStatistic = statistic;
+                }
+                req.setAttribute("lastStatistic", lastStatistic);
+                req.setAttribute("statistics", statistics);
                 req.getRequestDispatcher("home.jsp").forward(req, resp);
             } else {
                 req.getRequestDispatcher("login.jsp").forward(req, resp);
@@ -59,7 +86,5 @@ public class LogIn extends HttpServlet {
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         }
     }
-    
-    
-}
 
+}

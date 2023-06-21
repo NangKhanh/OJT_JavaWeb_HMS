@@ -221,4 +221,23 @@ public class RoomDAO {
         }
         return room;
     }
+
+    public void updateRoomStatus(String roomCode) throws SQLException {
+        String sql = "UPDATE room set status = 0 WHERE roomCode = ?";
+        try {
+            cnn.setAutoCommit(false);
+            PreparedStatement pt = cnn.prepareStatement(sql);
+            pt.setString(1, roomCode);
+            pt.executeUpdate();
+
+            cnn.commit();
+            pt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            cnn.rollback();
+        } finally {
+            cnn.setAutoCommit(true);
+            closeConnection();
+        }
+    }
 }

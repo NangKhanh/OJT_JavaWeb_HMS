@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import model.Transaction;
 import model.TransactionDetail;
+import service.RoomService;
 import service.TransactionService;
 import service.TransactionDetailService;
 
@@ -33,10 +34,10 @@ public class SubmitTransaction extends HttpServlet {
         String billData = req.getParameter("billData");
         Transaction transactionInfor = null;
         List<TransactionDetail> transactionDetail = null;
-        //RoomService roomService = new RoomService();
+        RoomService roomService = new RoomService();
         TransactionService transactionService = new TransactionService();
         TransactionDetailService detailService = new TransactionDetailService();
-
+        
         try {
             // Chuyển đổi JSON thành đối tượng Java bằng Gson
             Gson gson = new Gson();
@@ -54,6 +55,7 @@ public class SubmitTransaction extends HttpServlet {
         try {
             transactionService.createTransaction(transactionInfor);
             detailService.createTransactionDetail(transactionDetail);
+            roomService.updateRoomStatus(transactionDetail);
             System.out.println("final key :" +detailService.getCreatedID());
             
         } catch (SQLException e) {

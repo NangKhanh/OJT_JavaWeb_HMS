@@ -16,6 +16,7 @@ import model.Statistic;
 import service.StatisticService;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import service.UserService;
 
 /**
  *
@@ -35,7 +36,7 @@ public class LogIn extends HttpServlet {
         }
         int currentYear = Integer.parseInt(year);
         System.out.println("login infor :" + username + " " + password);
-        User user = (new UserDAO()).checkLogin(username, password);
+        User user = (new UserService()).checkLogin(username, password);
         if (user != null) {
             System.out.println(user);
             HttpSession session = req.getSession();

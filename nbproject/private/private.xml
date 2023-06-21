@@ -3,36 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Java_Web/HMS/web/transactionDetail.jsp</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/EditRoom.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/LogOut.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/service/TransactionService.java</file>
-            <file>file:/D:/Java_Web/HMS/web/transactionManagerment.jsp</file>
-            <file>file:/D:/Java_Web/HMS/web/access/css/transaction.css</file>
-            <file>file:/D:/Java_Web/HMS/src/java/service/TransactionDetailService.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/LogIn.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/dao/TransactionDAO.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/TransactionHistory.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/TransactionDetailHistory.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/AddBill.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/HideRoom.java</file>
-            <file>file:/D:/Java_Web/HMS/web/login.jsp</file>
-            <file>file:/D:/Java_Web/HMS/src/java/model/TransactionDetail.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/model/Room.java</file>
-            <file>file:/D:/Java_Web/HMS/web/access/js/transaction.js</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/TransactionManagerment.java</file>
             <file>file:/D:/Java_Web/HMS/src/java/dao/RoomDAO.java</file>
+            <file>file:/D:/Java_Web/HMS/web/transactionDetail.jsp</file>
+            <file>file:/D:/Java_Web/HMS/src/java/model/Statistic.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/LogOut.java</file>
             <file>file:/D:/Java_Web/HMS/web/transactionHistory.jsp</file>
-            <file>file:/D:/Java_Web/HMS/src/java/model/Transaction.java</file>
             <file>file:/D:/Java_Web/HMS/web/roomManagerment.jsp</file>
             <file>file:/D:/Java_Web/HMS/web/home.jsp</file>
+            <file>file:/D:/Java_Web/HMS/web/transactionManagerment.jsp</file>
             <file>file:/D:/Java_Web/HMS/src/java/dao/TransactionDetailDAO.java</file>
-            <file>file:/D:/Java_Web/HMS/web/css/roomManagermetn.css</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/RoomManagerment.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/LogIn.java</file>
             <file>file:/D:/Java_Web/HMS/src/java/dao/UserDAO.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/service/RoomService.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/SubmitTransaction.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/AddRoom.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/dao/TransactionDAO.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/service/StatisticService.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/dao/StatisticDAO.java</file>
+            <file>file:/D:/Java_Web/HMS/web/login.jsp</file>
         </group>
     </open-files>
 </project-private>

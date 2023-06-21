@@ -8,6 +8,7 @@ import dao.RoomDAO;
 import java.sql.SQLException;
 import java.util.List;
 import model.Room;
+import model.TransactionDetail;
 
 /**
  *
@@ -45,5 +46,11 @@ public class RoomService {
     
     public int getPageNumber(){
         return roomDAO.getNumberPage();
+    }
+
+    public void updateRoomStatus(List<TransactionDetail> transactionDetail) throws SQLException {
+        for (TransactionDetail td : transactionDetail) {
+            roomDAO.updateRoomStatus(td.getRoomCode());
+        }
     }
 }

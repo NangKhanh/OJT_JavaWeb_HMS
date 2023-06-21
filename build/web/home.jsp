@@ -129,22 +129,24 @@
         </header>
         <div class="container">
             <hr width="80%">
-            <h3 style="text-align: center;">Statistical</h3>
-            <div class="d-flex justify-content-center" style="margin: 20px">
-                Week1:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(255, 99, 132)"></button>
-                Week2:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(54, 162, 235)"></button>
-                Week3:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(255, 205, 86)"></button>
-                Week4:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(142, 172, 80)"></button>
-                Week5:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(136, 74, 57)"></button>
-            </div>
-            <div class="row">
-                <div class="col-md-7">
+            <div class="">
+             <h3 style="text-align: center;">Thống kê doanh số theo tháng trong năm nay</h3>
+                <div class="col-12">
                     <canvas id="myChartLine"></canvas>
                 </div>
-                <div class="col-md-5">
-                    <div class="row">
+                <div class="">
+                    <hr width="80%">
+                    <h3 style="text-align: center;">Thống kê doanh số của từng tuần trong tháng của năm nay</h3>
+                    <div class="d-flex justify-content-center" style="margin: 20px">
+                        Week1:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(255, 99, 132)"></button>
+                        Week2:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(54, 162, 235)"></button>
+                        Week3:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(255, 205, 86)"></button>
+                        Week4:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(142, 172, 80)"></button>
+                        Week5:<button style=" width: 40px; margin: 0 20px 0 10px; border: none; background-color:rgb(136, 74, 57)"></button>
+                    </div>
+                    <div class="row" >
                         <c:forEach var="s" items="${statistics}">
-                            <div class="col-4">
+                            <div class="col-md-3" style="margin-bottom: 30px">
                                 <canvas id ="myChartPie${s.getMonth()}" ></canvas>
                                 <div class="d-flex justify-content-center" >
                                     <label>${s.getMonth()}</label>
@@ -181,10 +183,47 @@
         <script src="js/jquery.slicknav.js"></script>
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/main.js"></script>
+        
         <script>
-            <c:forEach var="s" items="${statistics}">
+            new Chart(document.getElementById('myChartLine'), {
+                type: 'line',
+                data: {
+                  labels: [<c:forEach var="s" items="${statistics}">'${s.getMonth()}'<c:if test="${s != lastStatistic}">,</c:if></c:forEach>],
+                  datasets: [{
+                    label: 'Price',
+                    data: [<c:forEach var="s" items="${statistics}">${s.getTotal()}<c:if test="${s != lastStatistic}">,</c:if></c:forEach>],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                  }]
+                },
+                options: {
+                  scales: {
+                    x: {
+                      display: true,
+                      title: {
+                        display: true,
+                        text: 'Month'
+                      }
+                    },
+                    y: {
+                      display: true,
+                      title: {
+                        display: true,
+                        text: 'Price'
+                      }
+                    }
+                  },
+                  plugins: {
+                    legend: {
+                      display: false
+                    }
+                  }
+                }
+              });
+              <c:forEach var="s" items="${statistics}">
                 new Chart(document.getElementById('myChartPie${s.getMonth()}'), {
-                    type: 'pie',
+                    type: 'polarArea',
                     data: {
                         labels: [
                           'Week 1',
@@ -202,40 +241,28 @@
                             'rgb(142, 172, 80)',
                             'rgb(136, 74, 57)'
                           ],
-                          hoverOffset: 4,
-                          borderWidth: 0
                         }]
                       }, options: {
-                          plugins: {
-                              legend: {
-                                  display: false
-                              }
-                          }
-                      }
-                  });
-            </c:forEach>
-        </script>
-        <script>
-            new Chart(document.getElementById('myChartLine'), {
-              type: 'line',
-              data: {
-                  labels: [<c:forEach var="s" items="${statistics}">'${s.getMonth()}'<c:if test="${s != lastStatistic}">,</c:if></c:forEach>],
-                  datasets: [{
-                    label: ' Price',
-                    data: [<c:forEach var="s" items="${statistics}">${s.getTotal()}<c:if test="${s != lastStatistic}">,</c:if></c:forEach>],
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                  }]
-                },
-              options: {
-                plugins: {
-                        legend: {
-                            display: false
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            datalabels: {
+                                formatter: (value, ctx) => {
+                                    let sum = 0;
+                                    let dataArr = ctx.chart.data.datasets[0].data;
+                                    dataArr.map(data => {
+                                        sum += data;
+                                    });
+                                    let percentage = (value * 100 / sum).toFixed(2) + "%";
+                                    return percentage;
+                                },
+                                color: '#fff'
+                            }
                         }
                     }
-              }
-            });
+                  });
+            </c:forEach>
         </script>
 
     </body>

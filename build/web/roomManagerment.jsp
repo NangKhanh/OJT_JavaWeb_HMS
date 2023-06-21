@@ -26,9 +26,9 @@
     </head>
 
     <body>
-<!--        <div id="preloder">
-            <div class="loader"></div>
-        </div>-->
+        <!--        <div id="preloder">
+                    <div class="loader"></div>
+                </div>-->
 
         <!-- Offcanvas Menu Section Begin -->
         <div class="offcanvas-menu-overlay"></div>
@@ -136,7 +136,7 @@
                                 <h2 style="color: aliceblue;">Manager <b>Rooms</b></h2>
                             </div>
                             <div class="col-6">
-                                <a href="#addRoom" class="btn btn-success" style="background-color: #c88a3f;" data-toggle="modal"><i
+                                <a href="#addRoom" class="btn btn-success" onclick="genCode()" style="background-color: #c88a3f;" data-toggle="modal"><i
                                         class="material-icons">&#xE147;</i> <span>Add New Room</span></a>
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Code</label>
-                                <input type="text" name="code" class="form-control" required>
+                                <input id="txtCode" type="text" name="code" class="form-control" readonly required>
                             </div>
                             <div class="form-group">
                                 <label>Name</label>
@@ -326,17 +326,28 @@
         </c:forEach>
 
         <!-- Footer Section Begin -->
-        
+
         <script>
+            function genCode(){
+                let uniqueString = generateUniqueString();
+                console.log("Code:" + uniqueString);
+                document.getElementById("txtCode").value = uniqueString;
+            }
+            function generateUniqueString() {
+                let timestamp = Date.now().toString();
+                return timestamp;
+            }
+
+            
             function goToRM() {
                 document.getElementById("roomManagerment").submit();
             }
-            
-            function gotoTM(){
+
+            function gotoTM() {
                 document.getElementById("transactionManagerment").submit();
             }
-            
-            function gotoTH(){
+
+            function gotoTH() {
                 document.getElementById("transactionHistory").submit();
             }
         </script>

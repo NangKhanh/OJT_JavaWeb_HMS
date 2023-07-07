@@ -12,46 +12,22 @@ public @Data class TransactionDetail {
     private int id;
     private int transactionID;
     private String roomCode;
-    private String name;
-    private int time;
-    private int type;
-    private int price;
 
     // use for database
-    public TransactionDetail(int id, int transactionID, String roomCode, int time, int type, int price) {
+
+    public TransactionDetail(int id, int transactionID, String roomCode) {
         this.id = id;
         this.transactionID = transactionID;
         this.roomCode = roomCode;
-        this.time = time;
-        this.type = type;
-        this.price = price;
     }
 
-    // use for database
-    public TransactionDetail(int transactionID, String roomCode, int time, int type, int price) {
+    public TransactionDetail(int transactionID, String roomCode) {
         this.transactionID = transactionID;
         this.roomCode = roomCode;
-        this.time = time;
-        this.type = type;
-        this.price = price;
     }
 
-    //stogare the bill's data
-    public TransactionDetail(String roomCode,String name, int time, int type, int price) {
+    public TransactionDetail(String roomCode) {
         this.roomCode = roomCode;
-        this.name = name;
-        this.time = time;
-        this.type = type;
-        this.price = price;
     }
-
-    public TransactionDetail(int transactionID, String roomCode, String name, int time, int type, int price) {
-        this.transactionID = transactionID;
-        this.roomCode = roomCode;
-        this.name = name;
-        this.time = time;
-        this.type = type;
-        this.price = price;
-    }
-
+    
 }

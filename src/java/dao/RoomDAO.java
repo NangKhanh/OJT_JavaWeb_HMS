@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Room;
 
 /**
@@ -98,7 +100,8 @@ public class RoomDAO {
         return false;
     }
 
-    public boolean deteteRoom(String code) throws SQLException {
+    public boolean deteteRoom(String code){
+        // TODO: kt trang thai phong trc khi xoa
         String sql = "DELETE FROM room WHERE roomCode = ?";
         try {
             cnn.setAutoCommit(false);
@@ -111,9 +114,17 @@ public class RoomDAO {
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            cnn.rollback();
+            try {
+                cnn.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(RoomDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } finally {
-            cnn.setAutoCommit(true);
+            try {
+                cnn.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(RoomDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
             closeConnection();
         }
         return false;
@@ -222,12 +233,31 @@ public class RoomDAO {
         return room;
     }
 
-    public void updateRoomStatus(String roomCode) throws SQLException {
+    public void setCloseRoom(String roomCode) throws SQLException {
         String sql = "UPDATE room set status = 0 WHERE roomCode = ?";
         try {
             cnn.setAutoCommit(false);
             PreparedStatement pt = cnn.prepareStatement(sql);
             pt.setString(1, roomCode);
+            pt.executeUpdate();
+
+            cnn.commit();
+            pt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            cnn.rollback();
+        } finally {
+            cnn.setAutoCommit(true);
+            closeConnection();
+        }
+    }
+
+    public void setOppenRoom(String code) throws SQLException {
+        String sql = "UPDATE room set status = 1 WHERE roomCode = ?";
+        try {
+            cnn.setAutoCommit(false);
+            PreparedStatement pt = cnn.prepareStatement(sql);
+            pt.setString(1, code);
             pt.executeUpdate();
 
             cnn.commit();

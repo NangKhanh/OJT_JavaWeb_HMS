@@ -51,7 +51,7 @@ public class TransactionService {
 
     public void createTransaction(Transaction transactionInfor) {
         try {
-            transactionDAO.createTransaction(transactionInfor.getCustomerName(), transactionInfor.getCustomerPhoneNumber(), transactionInfor.getDate(), transactionInfor.getPrice());
+            transactionDAO.createTransaction(transactionInfor.getCustomerName(), transactionInfor.getCustomerPhoneNumber(), transactionInfor.getCheckinDate());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -71,5 +71,9 @@ public class TransactionService {
     
     public int getPageNumber(){
         return transactionDAO.getNumberPage();
+    }
+
+    public void checkout(int id, String checkoutDate, int price) throws SQLException {
+        transactionDAO.checkout(id, checkoutDate, price);
     }
 }

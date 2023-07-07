@@ -10,6 +10,7 @@ import service.TransactionService;
 import dao.TransactionDetailDAO;
 import java.sql.SQLException;
 import java.util.List;
+import model.Room;
 
 /**
  *
@@ -33,11 +34,11 @@ public class TransactionDetailService {
     public void createTransactionDetail(List<TransactionDetail> transactionDetail) throws SQLException {
         for (TransactionDetail td : transactionDetail) {
             System.out.println(getCreatedID()+" " + td);
-            (new TransactionDetailDAO()).createTransactionDetail(getCreatedID(), td.getRoomCode(), td.getTime(), td.getType(), td.getPrice());
+            (new TransactionDetailDAO()).createTransactionDetail(getCreatedID(), td.getRoomCode());
         }
     }
 
-    public List<TransactionDetail> getTransDetailByID(int id) {
+    public List<Room> getTransDetailByID(int id) {
         return detailDAO.getAllTransactionDetail(id);
     }
 

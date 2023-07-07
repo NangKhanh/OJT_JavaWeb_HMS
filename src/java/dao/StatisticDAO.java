@@ -49,17 +49,17 @@ public class StatisticDAO {
     public List<Statistic> getStatisticList(int currentYear) {
         List<Statistic> statistics = new ArrayList<>();
         String sql = "SELECT \n"
-                + "    YEAR(date) AS year,\n"
-                + "    MONTH(date) AS month,\n"
-                + "    SUM(CASE WHEN (DAY(date) - 1) DIV 7 + 1 = 1 THEN price ELSE 0 END) AS week1,\n"
-                + "    SUM(CASE WHEN (DAY(date) - 1) DIV 7 + 1 = 2 THEN price ELSE 0 END) AS week2,\n"
-                + "    SUM(CASE WHEN (DAY(date) - 1) DIV 7 + 1 = 3 THEN price ELSE 0 END) AS week3,\n"
-                + "    SUM(CASE WHEN (DAY(date) - 1) DIV 7 + 1 = 4 THEN price ELSE 0 END) AS week4,\n"
-                + "    SUM(CASE WHEN (DAY(date) - 1) DIV 7 + 1 = 5 THEN price ELSE 0 END) AS week5,\n"
+                + "    YEAR(checkoutDate) AS year,\n"
+                + "    MONTH(checkoutDate) AS month,\n"
+                + "    SUM(CASE WHEN (DAY(checkoutDate) - 1) DIV 7 + 1 = 1 THEN price ELSE 0 END) AS week1,\n"
+                + "    SUM(CASE WHEN (DAY(checkoutDate) - 1) DIV 7 + 1 = 2 THEN price ELSE 0 END) AS week2,\n"
+                + "    SUM(CASE WHEN (DAY(checkoutDate) - 1) DIV 7 + 1 = 3 THEN price ELSE 0 END) AS week3,\n"
+                + "    SUM(CASE WHEN (DAY(checkoutDate) - 1) DIV 7 + 1 = 4 THEN price ELSE 0 END) AS week4,\n"
+                + "    SUM(CASE WHEN (DAY(checkoutDate) - 1) DIV 7 + 1 = 5 THEN price ELSE 0 END) AS week5,\n"
                 + "    SUM(price) AS total\n"
-                + "FROM transaction WHERE YEAR(date) = ?\n"
-                + "GROUP BY YEAR(date), month\n"
-                + "ORDER BY YEAR(date), month";
+                + "FROM transaction WHERE YEAR(checkoutDate) = ? and checkoutStatus = 1\n"
+                + "GROUP BY YEAR(checkoutDate), month\n"
+                + "ORDER BY YEAR(checkoutDate), month;";
         try {
             PreparedStatement pt = cnn.prepareStatement(sql);
             pt.setInt(1, currentYear);

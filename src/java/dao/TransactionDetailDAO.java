@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.Room;
 import model.TransactionDetail;
 
 /**
@@ -45,16 +46,13 @@ public class TransactionDetailDAO {
         }
     }
 
-    public void createTransactionDetail(int createdID, String roomCode, int time, int type, int price) throws SQLException {
-        String sql = "INSERT INTO transactiondetail(transactionID, roomCode, time, type, price) VALUES (?, ?, ?, ? ,?)";
+    public void createTransactionDetail(int createdID, String roomCode) throws SQLException {
+        String sql = "INSERT INTO transactiondetail(transactionID, roomCode) VALUES (?, ?)";
         try {
             cnn.setAutoCommit(false);
             PreparedStatement pt = cnn.prepareStatement(sql);
             pt.setInt(1, createdID);
             pt.setString(2, roomCode);
-            pt.setInt(3, time);
-            pt.setInt(4, type);
-            pt.setInt(5, price);
             pt.executeUpdate();
 
             cnn.commit();
@@ -68,8 +66,8 @@ public class TransactionDetailDAO {
         }
     }
 
-    public List<TransactionDetail> getAllTransactionDetail(int id) {
-        List<TransactionDetail> transactions = new ArrayList<>();
+    public List<Room> getAllTransactionDetail(int id) {
+        List<Room> rooms = new ArrayList<>();
         String sql = "SELECT *\n"
                 + "FROM transactiondetail\n"
                 + "INNER JOIN room\n"
@@ -79,14 +77,12 @@ public class TransactionDetailDAO {
             pt.setInt(1, id);
             rs = pt.executeQuery();
             while (rs.next()) {
-                int transactionID = rs.getInt("transactionID");
                 String roomCode = rs.getString("roomCode");
-                int time = rs.getInt("time");
-                int type = rs.getInt("type");
-                int price = rs.getInt("price");
                 String name = rs.getString("name");
-                TransactionDetail detail = new TransactionDetail(transactionID, roomCode, name, time, type, price);
-                transactions.add(detail);
+                int hPrice =rs.getInt("pricePerHour");
+                int dPrice =rs.getInt("pricePerDay");
+                Room r = new Room(roomCode, name, hPrice, dPrice);
+                rooms.add(r);
             }
 
             pt.close();
@@ -96,7 +92,7 @@ public class TransactionDetailDAO {
         } finally {
             closeConnection();
         }
-        return transactions;
+        return rooms;
     }
 
 }

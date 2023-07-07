@@ -48,9 +48,15 @@ public class RoomService {
         return roomDAO.getNumberPage();
     }
 
-    public void updateRoomStatus(List<TransactionDetail> transactionDetail) throws SQLException {
+    public void setCloseRoom(List<TransactionDetail> transactionDetail) throws SQLException {
         for (TransactionDetail td : transactionDetail) {
-            roomDAO.updateRoomStatus(td.getRoomCode());
+            (new RoomDAO()).setCloseRoom(td.getRoomCode());
+        }
+    }
+
+    public void setOpenRoom(String[] code) throws SQLException {
+        for (String string : code) {
+            (new RoomDAO()).setOppenRoom(string);
         }
     }
 }

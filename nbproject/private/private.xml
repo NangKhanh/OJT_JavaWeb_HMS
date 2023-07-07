@@ -4,20 +4,20 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Java_Web/HMS/src/java/dao/RoomDAO.java</file>
-            <file>file:/D:/Java_Web/HMS/web/transactionDetail.jsp</file>
-            <file>file:/D:/Java_Web/HMS/src/java/model/Statistic.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/controller/LogOut.java</file>
-            <file>file:/D:/Java_Web/HMS/web/transactionHistory.jsp</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/EditRoom.java</file>
             <file>file:/D:/Java_Web/HMS/web/roomManagerment.jsp</file>
             <file>file:/D:/Java_Web/HMS/web/home.jsp</file>
-            <file>file:/D:/Java_Web/HMS/web/transactionManagerment.jsp</file>
-            <file>file:/D:/Java_Web/HMS/src/java/dao/TransactionDetailDAO.java</file>
+            <file>file:/D:/Java_Web/HMS/web/WEB-INF/web.xml</file>
             <file>file:/D:/Java_Web/HMS/src/java/controller/LogIn.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/dao/UserDAO.java</file>
-            <file>file:/D:/Java_Web/HMS/src/java/dao/TransactionDAO.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/RoomManagerment.java</file>
             <file>file:/D:/Java_Web/HMS/src/java/service/StatisticService.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/service/RoomService.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/AddBill.java</file>
             <file>file:/D:/Java_Web/HMS/src/java/dao/StatisticDAO.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/SubmitTransaction.java</file>
             <file>file:/D:/Java_Web/HMS/web/login.jsp</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/HideRoom.java</file>
+            <file>file:/D:/Java_Web/HMS/src/java/controller/AddRoom.java</file>
         </group>
     </open-files>
 </project-private>

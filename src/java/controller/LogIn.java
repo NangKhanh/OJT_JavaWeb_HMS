@@ -46,9 +46,9 @@ public class LogIn extends HttpServlet {
             Statistic lastStatistic = null;
             for (Statistic statistic : statistics) {
                 System.out.println(statistic);
-                lastStatistic = statistic;
+                //lastStatistic = statistic;
             }
-            req.setAttribute("lastStatistic", lastStatistic);
+            //req.setAttribute("lastStatistic", lastStatistic);
             req.setAttribute("statistics", statistics);
             req.getRequestDispatcher("home.jsp").forward(req, resp);
         } else {
@@ -75,9 +75,9 @@ public class LogIn extends HttpServlet {
                 Statistic lastStatistic = null;
                 for (Statistic statistic : statistics) {
                     System.out.println(statistic);
-                    lastStatistic = statistic;
+                    //lastStatistic = statistic;
                 }
-                req.setAttribute("lastStatistic", lastStatistic);
+                //req.setAttribute("lastStatistic", lastStatistic);
                 req.setAttribute("statistics", statistics);
                 req.getRequestDispatcher("home.jsp").forward(req, resp);
             } else {

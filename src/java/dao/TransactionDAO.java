@@ -10,13 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Transaction;
 
 /**
@@ -51,36 +49,36 @@ public class TransactionDAO {
         }
     }
 
-    public void createTransaction(String customerName, String customerPhoneNumber, String date, int price) throws SQLException {
+    public void createTransaction(String customerName, String customerPhoneNumber, String date) throws SQLException {
+        String inputFormat = "yyyy-MM-dd'T'HH:mm";
+//      Định dạng của kiểu datetime trong SQL
+        String outputFormat = "yyyy-MM-dd HH:mm:ss";
+//      Định nghĩa DateTimeFormatter cho các định dạng
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(inputFormat);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(outputFormat);
+//      Chuyển đổi chuỗi datetime local thành LocalDateTime
+        LocalDateTime localDateTime = LocalDateTime.parse(date, inputFormatter);
+//      Chuyển đổi LocalDateTime thành Timestamp (kiểu datetime trong SQL)
+        Timestamp sqlTimestamp = Timestamp.valueOf(localDateTime.format(outputFormatter));
+        System.out.println(sqlTimestamp);
+        String sql = "INSERT INTO transaction(customerName, customerPhoneNumber, checkinDate, checkoutStatus) VALUES (?, ?, ?, 0)";
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = dateFormat.parse(date);
-            System.out.println(parsedDate);
-            java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
-            System.out.println(sqlDate);
+            cnn.setAutoCommit(false);
+            PreparedStatement pt = cnn.prepareStatement(sql);
 
-            String sql = "INSERT INTO transaction(customerName, customerPhoneNumber, date, price) VALUES (?, ?, ?, ?)";
-            try {
-                cnn.setAutoCommit(false);
-                PreparedStatement pt = cnn.prepareStatement(sql);
+            pt.setString(1, customerName);
+            pt.setString(2, customerPhoneNumber);
+            pt.setTimestamp(3, sqlTimestamp);
+            pt.executeUpdate();
 
-                pt.setString(1, customerName);
-                pt.setString(2, customerPhoneNumber);
-                pt.setDate(3, sqlDate);
-                pt.setInt(4, price);
-                pt.executeUpdate();
-
-                cnn.commit();
-                pt.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                cnn.rollback();
-            } finally {
-                cnn.setAutoCommit(true);
-                closeConnection();
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(TransactionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            cnn.commit();
+            pt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            cnn.rollback();
+        } finally {
+            cnn.setAutoCommit(true);
+            closeConnection();
         }
     }
 
@@ -94,14 +92,16 @@ public class TransactionDAO {
                 int transactionID = rs.getInt(1);
                 String customerName = rs.getString(2);
                 String customerPhoneNumber = rs.getString(3);
-                SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-                String date = "";
-                if (rs.getDate(4) != null) {
-                    date = f.format(rs.getDate(4));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss");
+                String dateTimeString = "";
+                if (rs.getTimestamp(4) != null) {
+                    Timestamp timestamp = rs.getTimestamp(4);
+                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                    dateTimeString = localDateTime.format(formatter);
                 }
-                int price = rs.getInt(5);
+                int price = rs.getInt(6);
 
-                Transaction t = new Transaction(transactionID, customerName, customerPhoneNumber, date, price);
+                Transaction t = new Transaction(transactionID, customerName, customerPhoneNumber, dateTimeString, price);
                 transactions.add(t);
             }
 
@@ -114,10 +114,10 @@ public class TransactionDAO {
         }
         return transactions;
     }
-    
+
     public List<Transaction> getSortAllTransaction(int currentPage) {
         List<Transaction> transactions = new ArrayList<>();
-        String sql = "SELECT * from transaction order by date LIMIT ?, 5";
+        String sql = "SELECT * from transaction order by checkinDate LIMIT ?, 5";
         try {
             PreparedStatement pt = cnn.prepareStatement(sql);
             pt.setInt(1, currentPage * 5 - 5);
@@ -126,14 +126,22 @@ public class TransactionDAO {
                 int transactionID = rs.getInt(1);
                 String customerName = rs.getString(2);
                 String customerPhoneNumber = rs.getString(3);
-                SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-                String date = "";
-                if (rs.getDate(4) != null) {
-                    date = f.format(rs.getDate(4));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss");
+                String checkinDate = "";
+                if (rs.getTimestamp(4) != null) {
+                    Timestamp timestamp = rs.getTimestamp(4);
+                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                    checkinDate = localDateTime.format(formatter);
                 }
-                int price = rs.getInt(5);
-
-                Transaction t = new Transaction(transactionID, customerName, customerPhoneNumber, date, price);
+                String checkoutDate = "";
+                if (rs.getTimestamp(5) != null) {
+                    Timestamp timestamp = rs.getTimestamp(5);
+                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                    checkoutDate = localDateTime.format(formatter);
+                }
+                int price = rs.getInt(6);
+                int checoutStatus = rs.getInt(7);
+                Transaction t = new Transaction(transactionID, customerName, customerPhoneNumber, checkinDate, checkoutDate, price, checoutStatus);
                 transactions.add(t);
             }
 
@@ -146,6 +154,7 @@ public class TransactionDAO {
         }
         return transactions;
     }
+
     public Transaction getTransactionById(int id) {
         Transaction transaction = null;
         String sql = "SELECT * from transaction where transactionID = ?";
@@ -157,14 +166,22 @@ public class TransactionDAO {
                 int transactionID = rs.getInt(1);
                 String customerName = rs.getString(2);
                 String customerPhoneNumber = rs.getString(3);
-                SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-                String date = "";
-                if (rs.getDate(4) != null) {
-                    date = f.format(rs.getDate(4));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss");
+                String checkinDate = "";
+                if (rs.getTimestamp(4) != null) {
+                    Timestamp timestamp = rs.getTimestamp(4);
+                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                    checkinDate = localDateTime.format(formatter);
                 }
-                int price = rs.getInt(5);
-
-                transaction = new Transaction(transactionID, customerName, customerPhoneNumber, date, price);
+                String checkoutDate = "";
+                if (rs.getTimestamp(5) != null) {
+                    Timestamp timestamp = rs.getTimestamp(5);
+                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                    checkoutDate = localDateTime.format(formatter);
+                }
+                int price = rs.getInt(6);
+                int checoutStatus = rs.getInt(7);
+                transaction = new Transaction(transactionID, customerName, customerPhoneNumber, checkinDate, checkoutDate, price, checoutStatus);
             }
 
             pt.close();
@@ -176,7 +193,7 @@ public class TransactionDAO {
         }
         return transaction;
     }
-    
+
     public int getNumberPage() {
         String sql = "SELECT count(*) FROM transaction";
 
@@ -202,5 +219,37 @@ public class TransactionDAO {
 
         return 0;
     }
-    
+
+    public void checkout(int id, String checkoutDate, int price) throws SQLException {
+        String inputFormat = "MM/dd/yyyy, HH:mm:ss";
+//      Định dạng của kiểu datetime trong SQL
+        String outputFormat = "yyyy-MM-dd HH:mm:ss";
+//      Định nghĩa DateTimeFormatter cho các định dạng
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(inputFormat);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(outputFormat);
+//      Chuyển đổi chuỗi datetime local thành LocalDateTime
+        LocalDateTime localDateTime = LocalDateTime.parse(checkoutDate, inputFormatter);
+//      Chuyển đổi LocalDateTime thành Timestamp (kiểu datetime trong SQL)
+        Timestamp sqlTimestamp = Timestamp.valueOf(localDateTime.format(outputFormatter));
+        System.out.println(sqlTimestamp);
+        
+        String sql = "UPDATE transaction set checkoutDate = ?, price = ?, checkoutStatus = 1 where transactionID = ?";
+        try {
+            cnn.setAutoCommit(false);
+            PreparedStatement pt = cnn.prepareStatement(sql);
+            pt.setTimestamp(1, sqlTimestamp);
+            pt.setInt(2, price);
+            pt.setInt(3, id);
+            pt.executeUpdate();
+            
+            cnn.commit();
+            pt.close();
+        } catch (SQLException e) {
+            cnn.rollback();
+        } finally{
+            cnn.setAutoCommit(true);
+            closeConnection();
+        }
+    }
+
 }

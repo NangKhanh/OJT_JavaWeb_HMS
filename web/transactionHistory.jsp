@@ -142,7 +142,8 @@
                             <tr>
                                 <th style="width: 250px">Customer name</th>
                                 <th>Phone number</th>
-                                <th>Date</th>
+                                <th>Check-in Date</th>
+                                <th>Check-out Date</th>
                                 <th>Total Price</th>
                                 <th>Action</th>
                             </tr>
@@ -152,8 +153,17 @@
                                 <tr>
                                     <td>${transaction.getCustomerName()}</td>
                                     <td>${transaction.getCustomerPhoneNumber()}</td>
-                                    <td>${transaction.getDate()}</td>
-                                    <td>${transaction.getPrice()}</td>
+                                    <td>${transaction.getCheckinDate()}</td>
+                                    <c:choose>
+                                        <c:when test="${transaction.getCheckoutStatus() == 1}">
+                                            <td>${transaction.getCheckoutDate()}</td>
+                                            <td>${transaction.getPrice()}</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>not yet</td>
+                                            <td>not yet</td>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <td>
                                         <a href="./transactionDetail?id=${transaction.getTransactionID()}" class="edit"><i
                                                 class="fa fa-eye" data-toggle="tooltip"
@@ -168,22 +178,21 @@
                         <ul class="pagination">
                             <c:choose>
                                 <c:when test="${currentPage > 1}">
+                                    <li class="page-item"><a href="./transactionHistory?currentPage=1" class="page-link">First</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li class="page-item disabled"><a class="page-link">First</a></li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${currentPage > 1}">
                                     <li class="page-item"><a href="./transactionHistory?currentPage=${currentPage - 1}" class="page-link">Previous</a></li>
                                     </c:when>
                                     <c:otherwise>
                                     <li class="page-item disabled"><a class="page-link">Previous</a></li>
                                     </c:otherwise>
                                 </c:choose>
-                                <c:forEach var="page" begin="1" end="${pageNumber}">
-                                    <c:choose>
-                                        <c:when test="${page == currentPage}">
-                                        <li class="page-item active"><a href="./transactionHistory?currentPage=${page}" class="page-link">${page}</a></li>
-                                        </c:when>
-                                        <c:otherwise>
-                                        <li class="page-item"><a href="./transactionHistory?currentPage=${page}" class="page-link">${page}</a></li>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
+                                <li class="page-item active"><a href="#" class="page-link">${currentPage}</a></li>
                                 <c:choose>
                                     <c:when test="${currentPage < pageNumber}">
                                     <li class="page-item"><a href="./transactionHistory?currentPage=${currentPage + 1}" class="page-link">Next</a></li>
@@ -192,56 +201,19 @@
                                     <li class="page-item disabled"><a class="page-link">Next</a></li> 
                                     </c:otherwise>
                                 </c:choose>
+                                <c:choose>
+                                    <c:when test="${currentPage < pageNumber}">
+                                    <li class="page-item"><a href="./transactionHistory?currentPage=${pageNumber}" class="page-link">Last</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li class="page-item disabled"><a class="page-link">Last</a></li> 
+                                    </c:otherwise>
+                                </c:choose>
                         </ul>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Edit Modal HTML -->
-        <div id="edit" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="" method="">
-                        <input type="hidden" name="currentPage" value="${currentPage}">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Room Information : ${room.getRoomCode()}</h5>
-                            <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name ="name" class="form-control" value="${room.getName()}" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Price/Hour</label>
-                                <input type="number" name ="pHour" class="form-control" value="${room.getPricePerHour()}" required min="1">
-                            </div>
-                            <div class="form-group">
-                                <label>Price/Day</label>
-                                <input type="number" name="pDay" class="form-control" value="${room.getPricePerDay()}" required min="">
-                            </div>
-                            <div class="d-flex">
-                                <c:choose>
-                                    <c:when test="${room.getStatus() == 1}">
-                                        <input style="margin-right: 5px" type="radio" name="status" value="1" checked > Còn trống 
-                                        <input style="margin-left: 20px; margin-right: 5px"  type="radio" name="status" value="0"> Đã cho thuê
-                                    </c:when>
-                                    <c:when test="${room.getStatus() == 0}">
-                                        <input style="margin-right: 5px" type="radio" name="status" value="1" > Còn trống
-                                        <input style="margin-left: 20px; margin-right: 5px"  type="radio" name="status" class="" value="0" checked> Đã cho thuê
-                                    </c:when>
-                                </c:choose>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-danger" data-dismiss="modal" value="close">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        </div>  
 
         <script>
             function goToRM() {

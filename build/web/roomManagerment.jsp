@@ -171,9 +171,11 @@
                                         <a href="#edit${room.getRoomCode()}" class="edit" data-toggle="modal"><i
                                                 class="material-icons" data-toggle="tooltip"
                                                 title="Edit">&#xE254;</i></a>
-                                        <a href="#delete${room.getRoomCode()}" class="delete" data-toggle="modal"><i
+                                        <c:if test="${room.getStatus() == 1}">
+                                            <a href="#delete${room.getRoomCode()}" class="delete" data-toggle="modal"><i
                                                 class="material-icons" data-toggle="tooltip"
                                                 title="Delete">&#xE872;</i></a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -225,8 +227,8 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Code</label>
-                                <input id="txtCode" type="text" name="code" class="form-control" readonly required>
+                                <!--                                <label>Code</label>-->
+                                <input id="txtCode" type="hidden" name="code" class="form-control" readonly required>
                             </div>
                             <div class="form-group">
                                 <label>Name</label>
@@ -258,7 +260,7 @@
                             <input type="hidden" name="code" value="${room.getRoomCode()}">
                             <input type="hidden" name="currentPage" value="${currentPage}">
                             <div class="modal-header">
-                                <h5 class="modal-title">Edit Room Information : ${room.getRoomCode()}</h5>
+                                <h5 class="modal-title">Edit Room Information</h5>
                                 <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                             </div>
@@ -267,15 +269,29 @@
                                     <label>Name</label>
                                     <input type="text" name ="name" class="form-control" value="${room.getName()}" required>
                                 </div>
-                                <div class="form-group">
-                                    <label>Price/Hour</label>
-                                    <input type="number" name ="pHour" class="form-control" value="${room.getPricePerHour()}" required min="1">
-                                </div>
-                                <div class="form-group">
-                                    <label>Price/Day</label>
-                                    <input type="number" name="pDay" class="form-control" value="${room.getPricePerDay()}" required min="">
-                                </div>
-                                <div class="d-flex">
+                                <c:choose>
+                                    <c:when test="${room.getStatus() == 1}">
+                                        <div class="form-group">
+                                            <label>Price/Hour</label>
+                                            <input type="number" name ="pHour" class="form-control" value="${room.getPricePerHour()}" required min="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Price/Day</label>
+                                            <input type="number" name="pDay" class="form-control" value="${room.getPricePerDay()}" required min="1">
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="form-group">
+                                            <label>Price/Hour</label>
+                                            <input type="number" name ="pHour" class="form-control" value="${room.getPricePerHour()}" required min="1" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Price/Day</label>
+                                            <input type="number" name="pDay" class="form-control" value="${room.getPricePerDay()}" required min="1" readonly>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                                <div class="d-none">
                                     <c:choose>
                                         <c:when test="${room.getStatus() == 1}">
                                             <input style="margin-right: 5px" type="radio" name="status" value="1" checked > Còn trống 
@@ -300,35 +316,37 @@
 
         <!-- Delete Modal HTML -->
         <c:forEach var="room" items="${rooms}">
-            <div id="delete${room.getRoomCode()}" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="deleteRoom" method="post">
+            <c:if test="${room.getStatus() == 1}">
+                <div id="delete${room.getRoomCode()}" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="deleteRoom" method="post">
 
-                            <div class="modal-header">
-                                <h4 class="modal-title">Delete Room</h4>
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete room : ${room.getName()} ?</p>
-                                <p class="text-danger"><small>This action cannot be undone.</small></p>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="hidden" name="code" value="${room.getRoomCode()}">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-danger" value="Delete">
-                            </div>
-                        </form>
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete Room</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete room : ${room.getName()} ?</p>
+                                    <p class="text-danger"><small>This action cannot be undone.</small></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" name="code" value="${room.getRoomCode()}">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </c:if>
         </c:forEach>
 
         <!-- Footer Section Begin -->
 
         <script>
-            function genCode(){
+            function genCode() {
                 let uniqueString = generateUniqueString();
                 console.log("Code:" + uniqueString);
                 document.getElementById("txtCode").value = uniqueString;
@@ -338,7 +356,7 @@
                 return timestamp;
             }
 
-            
+
             function goToRM() {
                 document.getElementById("roomManagerment").submit();
             }

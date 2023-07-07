@@ -34,5 +34,12 @@ public @Data class Room {
         this.pricePerHour = pricePerHour;
         this.pricePerDay = pricePerDay;
     }
+
+    public Room(String roomCode, String name, int pricePerHour, int pricePerDay) {
+        this.roomCode = roomCode;
+        this.name = name;
+        this.pricePerHour = pricePerHour;
+        this.pricePerDay = pricePerDay;
+    }
     
 }
